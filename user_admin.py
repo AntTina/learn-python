@@ -7,13 +7,13 @@ time = time.strftime('%F %X')
 user = os.getlogin()
 ip = getoutput("w|awk '/w$/{print $3}'")
 
+
 def menu():
     print '**** *** User admin *** ****'
-    print '1.add user' 
-    print '2.delete user' 
-    print '3.query user info'
-    print '4.reset user password'
-    print '5.exit'
+    menu = {1: 'add user', 2: 'delete user', 3: 'query user info',
+            4: 'reset user password', 5: 'exit'}
+    for i, j in menu.items():
+        print '%s.%s' % (i, j)
 
 
 def add():
@@ -23,9 +23,10 @@ def add():
     else:
         os.system('useradd %s' % u_name)
         print 'User %s create ok' % u_name
-        f = open('/var/log/manager_user.log','a+')
+        f = open('/var/log/manager_user.log', 'a+')
         f.write('Date: %s  Current user: %s  Thing:create user %s  Ip: %s\n' % (time, user, u_name, ip))
         f.close()
+
 
 def delete():
     u_name = raw_input('please input username you want to delete: ')
@@ -34,7 +35,7 @@ def delete():
         if answer == 'y':
             os.system('userdel -r  %s' % u_name)
             print 'User %s delete ok' % u_name
-            f = open('/var/log/manager_user.log','a+')
+            f = open('/var/log/manager_user.log', 'a+')
             f.write('Date: %s  Current user: %s  Thing:delete user %s  Ip: %s\n' % (time, user, u_name, ip))
             f.close()
         else:
@@ -42,10 +43,12 @@ def delete():
     else:
         print 'User %s does not exists' % u_name
 
+
 def query():
     print 'All user: %s' % os.popen('cat /etc/passwd|cut -d: -f 1').read().split()
     u_name = raw_input('please input username you want to query: ')
     print getoutput("cat /etc/passwd |egrep '^%s:'" % u_name)
+
 
 def reset():
     print 'All user: %s' % os.popen('cat /etc/passwd|cut -d: -f 1').read().split()
@@ -53,9 +56,11 @@ def reset():
     u_pin = raw_input('please input new password: ')
     os.system('echo %s|passwd %s --stdin &>/dev/null' % (u_pin, u_name))
     print 'reset user %s password ok' % u_name
-    f = open('/var/log/manager_user.log','a+')
+    f = open('/var/log/manager_user.log', 'a+')
     f.write('Date: %s  Current user: %s  Thing:reset user %s password  Ip: %s\n' % (time, user, u_name, ip))
     f.close()
+
+
 def main():
     while True:
         os.system('clear')

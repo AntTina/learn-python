@@ -1,12 +1,13 @@
-#!/usr/bin/python 
+#!/usr/bin/python
 import os
 import MySQLdb
 
-db = MySQLdb.connect('localhost','root','123456')
+db = MySQLdb.connect('localhost', 'root', '123456')
 cur = db.cursor()
 cur.execute('create database g_dress character set utf8')
 cur.execute('use g_dress')
 cur.execute('create table g_brand(id int primary key,name varchar(10),size varchar(10),color varchar(10),price int)')
+
 
 def menu():
     print '**** *** Operate mysql through python *** ****'
@@ -15,6 +16,7 @@ def menu():
     print '3.query data'
     print '4.update data'
     print '5.exit'
+
 
 def insert():
     num = int(raw_input('Please input the insert data number:'))
@@ -29,7 +31,8 @@ def insert():
         n = n+1
         os.system('sleep 1')
     db.commit()
-    print '\nInsert %s data successfully' %num
+    print '\nInsert %s data successfully' % num
+
 
 def delete():
     d_con = raw_input('Please input delete condition: ')
@@ -37,11 +40,13 @@ def delete():
     db.commit()
     print '\nDelete data successfully'
 
+
 def queryall():
     cur.execute("select * from g_brand")
-    result = cur.fetchall() 
+    result = cur.fetchall()
     for i in result:
         print i
+
 
 def query():
     q_con = raw_input('Please input query condition: ')
@@ -49,7 +54,7 @@ def query():
     result1 = cur.fetchall()
     for i in result1:
         print i
-    
+
 
 def update():
     context = raw_input('Please input update context: ')
@@ -65,10 +70,10 @@ def main():
         menu()
         num = raw_input('Please input your choice:')
         if num == '1':
-           insert()
+            insert()
         elif num == '2':
-           queryall()
-           delete()
+            queryall()
+            delete()
         elif num == '3':
             query()
         elif num == '4':

@@ -12,7 +12,7 @@ way = raw_input("please input the path:")
 num = 0
 for path, d_name, f_name in os.walk(way):
     for i in fnmatch.filter(f_name, "*.py"):
-        num += 1       
+        num += 1
         print os.path.join(path)
 
 print "\033[31m%s flie(s)\033[0m" % num
